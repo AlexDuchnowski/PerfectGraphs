@@ -5,7 +5,7 @@ import graph_generation
 def lollipop_5() -> Tuple[List[int], List[Tuple[int]]]:
     vertices, edges = graph_generation.complete(5)
     vertices += [6,7,8,9]
-    edges += [(6,0),(7,6),(8,7),(9,8)]
+    edges += [(6,1),(7,6),(8,7),(9,8)]
     return vertices, edges
 
 def barbell_5_5() -> Tuple[List[int], List[Tuple[int]]]:
