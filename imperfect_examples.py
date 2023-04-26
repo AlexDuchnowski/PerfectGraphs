@@ -11,18 +11,9 @@ def C5_with_square() -> Tuple[List[int], List[Tuple[int]]]:
 
 
 def moser_spindle() -> Tuple[List[int], List[Tuple[int]]]:
-    vertices = [0, 1, 2, 3, 4, 5, 6]
+    vertices = [1, 2, 3, 4, 5, 6, 7]
     edges = [
-        (0, 1),
-        (0, 2),
-        (0, 6),
-        (1, 2),
-        (1, 3),
-        (2, 3),
-        (3, 4),
-        (3, 5),
-        (4, 6),
-        (5, 6),
+        (1,2),(2,3),(3,4),(4,5),(5,1),(1,6),(5,6),(4,6),(2,7),(3,7),(4,7)
     ]
     return vertices, edges
 
