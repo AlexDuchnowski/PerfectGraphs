@@ -1,4 +1,5 @@
 import graph_generation as gg
+import imperfect_examples as imp
 from manim_setup import *
 
 
@@ -118,3 +119,47 @@ class PropertyPerseverence(Scene):
             run_time=0.5,
         )
         self.wait()
+
+
+class ImperfectGraphs(Scene):
+    def construct(self):
+        scale = 1.5
+        graphs = VGroup(
+            Graph(
+                *gg.cycle(5),
+                layout_scale=scale,
+                layout="circular",
+            ),
+            Graph(
+                *imp.C5_with_square(),
+                layout_scale=scale,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *imp.moser_spindle(),
+                layout_scale=scale,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *imp.C7_with_interior_stuff(),
+                layout_scale=scale,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *imp.C9_with_interior_stuff(),
+                layout_scale=scale,
+                layout="kamada_kawai",
+            ),
+        )
+        graphs[0].add_vertices(6)
+        graphs[0].add_edges((1, 6), (2, 6), (4, 6))
+        graphs.arrange_in_grid(buff=LARGE_BUFF)
+        self.play(
+            Create(graphs[0]),
+            Create(graphs[1]),
+            Create(graphs[2]),
+            Create(graphs[3]),
+            Create(graphs[4]),
+            run_time=2,
+        )
+        self.wait(5)

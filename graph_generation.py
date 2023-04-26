@@ -9,7 +9,7 @@ def complete(n: int) -> Tuple[List[int], List[Tuple[int]]]:
 
 def path(n: int) -> Tuple[List[int], List[Tuple[int]]]:
     vertices = list(range(1, n + 1))
-    edges = [(u, u + 1) for u in vertices]
+    edges = [(u, u + 1) for u in vertices[:-1]]
     return vertices, edges
 
 
