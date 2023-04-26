@@ -42,7 +42,7 @@ class IsThisBoundSharp(Scene):
 
         self.play(Write(lines[0]), run_time=3)
         self.wait(WAIT_TIME)
-        self.play(Write(lines[2], run_time=1))
+        self.play(Write(lines[2]))
         self.wait(WAIT_TIME)
         self.play(
             TransformMatchingTex(
@@ -52,8 +52,8 @@ class IsThisBoundSharp(Scene):
             ),
         )
         self.wait()
-        self.play(LaggedStartMap(FadeOut, lines[0], shift=2 * RIGHT, run_time=1))
-        self.play(LaggedStartMap(FadeOut, lines[2], shift=2 * RIGHT, run_time=1))
+        self.play(LaggedStartMap(FadeOut, lines[0], shift=2 * RIGHT))
+        self.play(LaggedStartMap(FadeOut, lines[2], shift=2 * RIGHT))
 
 
 class PerfectDefinition(Scene):
@@ -63,4 +63,4 @@ class PerfectDefinition(Scene):
         )
         self.play(Write(defn), run_time=10)
         self.wait(1)
-        self.play(LaggedStartMap(FadeOut, defn, run_time=1))
+        self.play(LaggedStartMap(FadeOut, defn))

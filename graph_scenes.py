@@ -6,7 +6,8 @@ from manim_setup import *
 class C7Complement(Scene):
     def construct(self):
         vertices = [1, 2, 3, 4, 5, 6, 7]
-        edges = [(i, j) for i in range(1, 8) for j in range(i + 1, 8)].remove((1, 7))
+        edges = [(i, j) for i in range(1, 7) for j in range(i + 2, 8)]
+        edges.remove((1, 7))
         g1 = Graph(
             vertices,
             edges,
@@ -150,6 +151,11 @@ class ImperfectGraphs(Scene):
                 layout_scale=scale,
                 layout="kamada_kawai",
             ),
+            Graph(
+                *imp.C7_complement(),
+                layout_scale=scale,
+                layout="circular",
+            ),
         )
         graphs[0].add_vertices(6)
         graphs[0].add_edges((1, 6), (2, 6), (4, 6))
@@ -160,9 +166,10 @@ class ImperfectGraphs(Scene):
             Create(graphs[2]),
             Create(graphs[3]),
             Create(graphs[4]),
+            Create(graphs[5]),
             run_time=1.5,
         )
-        self.wait(5)
+        self.wait(6)
         self.play(
             graphs[0].animate.add_edges(
                 *gg.cycle(5)[1],
@@ -172,6 +179,18 @@ class ImperfectGraphs(Scene):
                 *gg.cycle(5)[1],
                 edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
             ),
+            graphs[2].animate.add_edges(
+                *gg.cycle(5)[1],
+                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
+            ),
+        )
+        self.wait(2)
+        self.play(
+            graphs[0].animate.remove_vertices(6),
+            graphs[1].animate.remove_vertices(6, 7),
+            graphs[2].animate.remove_vertices(6, 7),
+        )
+        self.play(
             graphs[3].animate.add_edges(
                 *gg.cycle(7)[1],
                 edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(7)[1]},
@@ -182,4 +201,36 @@ class ImperfectGraphs(Scene):
             ),
             run_time=1.5,
         )
+        self.play(
+            graphs[3].animate.remove_vertices(8, 9),
+            graphs[4].animate.remove_vertices(10, 11, 12),
+        )
+        self.wait(1)
+        self.play(LaggedStartMap(FadeOut, graphs[:-1], shift=2 * LEFT))
+        self.play(graphs[-1].animate.change_layout("circular", layout_scale=2))
+        self.wait()
+        v, e = gg.cycle(7)
+        C7 = Graph(
+            v,
+            [],
+            layout="circular",
+            layout_scale=2,
+        )
+        self.add(C7)
+        self.play(
+            C7.animate.add_edges(
+                *e,
+                edge_config={edge: {"stroke_color": PURE_BLUE} for edge in e},
+            )
+        )
+        self.wait()
+        self.play(VGroup(graphs[-1], C7).animate.arrange(buff=LARGE_BUFF))
+        self.wait()
+        self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
+        graphs[-1] = C7
+        self.play(
+            C7.animate.set_scale(scale),
+        )
+        graphs.arrange_in_grid(buff=LARGE_BUFF)
+        self.play(FadeIn(graphs[:-1]))
         self.wait()
