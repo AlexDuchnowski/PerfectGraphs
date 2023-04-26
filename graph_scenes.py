@@ -6,7 +6,7 @@ from manim_setup import *
 class C7Complement(Scene):
     def construct(self):
         vertices = [1, 2, 3, 4, 5, 6, 7]
-        edges = [(i, j) for i in range(1, 8) for j in range(1, 8) if (i - j) ** 2 > 1]
+        edges = [(i, j) for i in range(1, 8) for j in range(i + 1, 8)].remove((1, 7))
         g1 = Graph(
             vertices,
             edges,
@@ -160,6 +160,26 @@ class ImperfectGraphs(Scene):
             Create(graphs[2]),
             Create(graphs[3]),
             Create(graphs[4]),
-            run_time=2,
+            run_time=1.5,
         )
         self.wait(5)
+        self.play(
+            graphs[0].animate.add_edges(
+                *gg.cycle(5)[1],
+                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
+            ),
+            graphs[1].animate.add_edges(
+                *gg.cycle(5)[1],
+                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
+            ),
+            graphs[3].animate.add_edges(
+                *gg.cycle(7)[1],
+                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(7)[1]},
+            ),
+            graphs[4].animate.add_edges(
+                *gg.cycle(9)[1],
+                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(9)[1]},
+            ),
+            run_time=1.5,
+        )
+        self.wait()

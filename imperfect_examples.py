@@ -3,13 +3,6 @@ from typing import List, Tuple
 import graph_generation
 
 
-def C5_with_central() -> Tuple[List[int], List[Tuple[int]]]:
-    vertices, edges = graph_generation.cycle(5)
-    vertices.append(6)
-    edges += [(1, 6), (2, 6), (4, 6)]
-    return vertices, edges
-
-
 def C5_with_square() -> Tuple[List[int], List[Tuple[int]]]:
     vertices, edges = graph_generation.cycle(5)
     vertices += [6, 7]
