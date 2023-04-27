@@ -1,6 +1,12 @@
 from typing import List, Tuple
 
 
+def shift(
+    v: List[int], e: List[Tuple[int]], n: int
+) -> Tuple[List[int], List[Tuple[int]]]:
+    return [u + n for u in v], [(x + n, y + n) for (x, y) in e]
+
+
 def complete(n: int) -> Tuple[List[int], List[Tuple[int]]]:
     vertices = list(range(1, n + 1))
     edges = [(u, v) for u in vertices for v in vertices[u:]]

@@ -3,31 +3,78 @@ import imperfect_examples as imp
 from manim_setup import *
 
 
-class C7Complement(Scene):
+class Clique(Scene):
     def construct(self):
-        vertices = [1, 2, 3, 4, 5, 6, 7]
-        edges = [(i, j) for i in range(1, 7) for j in range(i + 2, 8)]
-        edges.remove((1, 7))
-        g1 = Graph(
-            vertices,
-            edges,
-            layout="circular",
-            layout_scale=2,
-            vertex_config={"radius": 0.20},
+        v, e = gg.complete(4)
+        v += list(range(5, 13))
+        e += [
+            (1, 5),
+            (4, 5),
+            (1, 9),
+            (2, 9),
+            (5, 9),
+            (9, 10),
+            (9, 6),
+            (4, 7),
+            (5, 7),
+            (2, 11),
+            (3, 11),
+            (10, 12),
+            (11, 12),
+            (6, 8),
+            (6, 7),
+            (7, 8),
+            (2, 10),
+            (6, 10),
+            (10, 11),
+            (8, 10),
+        ]
+        lt = {
+            1: [-1, 1, 0],
+            2: [1, 1, 0],
+            3: [1, -1, 0],
+            4: [-1, -1, 0],
+            5: [-2.5, 2, 0],
+            6: [-2, 3.5, 0],
+            7: [-7, 2.5, 0],
+            8: [-5, 5, 0],
+            9: [0.5, 3, 0],
+            10: [3, 3.5, 0],
+            11: [5, 2, 0],
+            12: [6, 5, 0],
+        }
+        G = Graph(
+            v,
+            e,
+            layout=lt,
         )
-        g2 = Graph(
-            vertices,
-            [(1, 6), (2, 5)],
-            layout="circular",
-            layout_scale=2,
-            vertex_config={"radius": 0.20},
-            edge_config={(1, 6): {"stroke_color": RED}, (2, 5): {"stroke_color": RED}},
+        clique = Text("clique", color=RED, slant=ITALIC)
+        clique.move_to([0, -2, 0])
+        self.play(Create(G))
+        self.wait(5)
+        self.play(
+            G.animate.add_edges(
+                *gg.complete(4)[1],
+                edge_config={edge: {"stroke_color": RED} for edge in gg.complete(4)[1]},
+            )
         )
-        self.play(Create(g1, run_time=2))
         self.wait()
-        self.play(FadeIn(g2))
-        self.play(FadeOut(g1, run_time=2))
+        self.add(clique)
         self.wait()
+        self.play(
+            G[1].animate.scale(2),
+            G[2].animate.scale(2),
+            G[3].animate.scale(2),
+            G[4].animate.scale(2),
+        )
+        self.wait(0.25)
+        self.play(
+            G[1].animate.set_color(BLUE_E),
+            G[2].animate.set_color(PURE_GREEN),
+            G[3].animate.set_color(PURE_BLUE),
+            G[4].animate.set_color(PINK),
+        )
+        self.wait(5)
 
 
 class PropertyPerseverence(Scene):
@@ -190,6 +237,7 @@ class ImperfectGraphs(Scene):
             graphs[1].animate.remove_vertices(6, 7),
             graphs[2].animate.remove_vertices(6, 7),
         )
+        self.wait(3)
         self.play(
             graphs[3].animate.add_edges(
                 *gg.cycle(7)[1],
@@ -229,8 +277,8 @@ class ImperfectGraphs(Scene):
         self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
         graphs[-1] = C7
         self.play(
-            C7.animate.set_scale(scale),
+            C7.animate.change_layout("circular", layout_scale=scale),
+            FadeIn(graphs[:-1]),
         )
-        graphs.arrange_in_grid(buff=LARGE_BUFF)
-        self.play(FadeIn(graphs[:-1]))
+        self.play(graphs.animate.arrange_in_grid(buff=LARGE_BUFF))
         self.wait()
