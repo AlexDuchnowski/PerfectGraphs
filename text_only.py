@@ -33,3 +33,33 @@ class PerfectDefinition(Scene):
         self.play(Write(text), run_time=10)
         self.wait(1)
         self.play(LaggedStartMap(FadeOut, text))
+
+
+class WeakPerfectGraphTheorem(Scene):
+    def construct(self):
+        lines = VGroup(
+            Text("The Weak Perfect Graph Theorem", font=FONT, weight=BOLD),
+            Tex("A graph $G$ is perfect if and only if \\overline{$G$} is perfect."),
+        )
+        lines.arrange(DOWN, buff=LARGE_BUFF)
+        self.play(Write(lines[0]))
+        self.wait(2)
+        self.play(Write(lines[1]))
+        self.wait(1)
+        self.play(LaggedStartMap(FadeOut, lines))
+
+
+class StrongPerfectGraphTheorem(Scene):
+    def construct(self):
+        lines = VGroup(
+            Text("The Strong Perfect Graph Theorem", font=FONT, weight=BOLD),
+            Tex(
+                "A graph $G$ is perfect if and only if it contains no odd hole or odd antihole."
+            ),
+        )
+        lines.arrange(DOWN, buff=LARGE_BUFF)
+        self.play(Write(lines[0]))
+        self.wait(2)
+        self.play(Write(lines[1]))
+        self.wait(1)
+        self.play(LaggedStartMap(FadeOut, lines))
