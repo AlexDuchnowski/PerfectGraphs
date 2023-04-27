@@ -2,6 +2,7 @@ import graph_generation as gg
 import imperfect_examples as imp
 from manim_setup import *
 
+
 class Clique(Scene):
     def construct(self):
         v, e = gg.complete(4)
@@ -275,6 +276,31 @@ class PropertyPerseverence(Scene):
             run_time=0.5,
         )
         self.wait()
+
+
+class NotGuaranteed(Scene):
+    def construct(self):
+        G = Graph(
+            *gg.cycle(5),
+            vertex_config={
+                i + 1: {"radius": 0.2, "fill_color": COLOR_SEQ[[0, 1, 0, 1, 2][i]]}
+                for i in range(5)
+            },
+            layout_scale=3,
+            layout="circular",
+        )
+        G.rotate(13 * PI / 10)
+        G.add_vertices(
+            6,
+            vertex_config={6: {"radius": 0.2, "fill_color": COLOR_SEQ[2]}},
+            # positions={6: [0, 0.5, 0]},
+        )
+        G.add_edges((1, 6), (2, 6), (4, 6))
+        G.shift(0.425 * LEFT)
+        self.play(Create(G))
+        self.wait(5)
+        self.play(G.animate.remove_vertices(6))
+        self.wait(5)
 
 
 class ImperfectGraphs(Scene):
