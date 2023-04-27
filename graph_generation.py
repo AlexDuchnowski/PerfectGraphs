@@ -40,7 +40,7 @@ def complete_multipartite(sizes: List[int]) -> Tuple[List[int], List[Tuple[int]]
         return vertices, edges
     else:
         rest_v, rest_e = complete_multipartite(sizes[:-1])
-        Z = list(range(sum(sizes[:-1]), sum(sizes) + 1))
+        Z = list(range(sum(sizes[:-1]) + 1, sum(sizes) + 1))
         vertices = rest_v + Z
         edges = rest_e + [(x, z) for x in rest_v for z in Z]
         return vertices, edges

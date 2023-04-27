@@ -77,6 +77,115 @@ class Clique(Scene):
         self.wait(5)
 
 
+class IsThisBoundSharp(Scene):
+    def construct(self):
+        # Tex to color map
+        t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, "\geq": GOLD, "=": YELLOW}
+        # Configuration to pass along to each Tex mobject
+        kw = dict(font_size=80, tex_to_color_map=t2c)
+        lines = VGroup(
+            MathTex("\chi(G)\geq\omega(G)", **kw),
+            MathTex("\chi(G)=\omega(G)", **kw),
+            Text(
+                "Is this bound sharp?",
+                font=FONT,
+                t2s={"sharp": ITALIC},
+                t2w={"sharp": BOLD},
+                t2c={"sharp": YELLOW},
+            ),
+        )
+        lines.arrange(DOWN, buff=LARGE_BUFF)
+
+        self.play(Write(lines[0]), run_time=2)
+        self.wait(3)
+        self.play(Write(lines[2]))
+        self.wait()
+        self.play(
+            TransformMatchingTex(
+                lines[0].copy(),
+                lines[1],
+                matched_keys=["\chi", "\omega", "G", "(", ")"],
+            ),
+        )
+        self.wait()
+        self.play(
+            LaggedStartMap(FadeOut, lines[0], shift=2 * RIGHT),
+            LaggedStartMap(FadeOut, lines[2], shift=2 * RIGHT),
+        )
+        self.play(lines[1].animate.move_to([0, 3.25, 0]))
+        lt_scale = 1.25
+        graphs = VGroup(
+            Graph(
+                *gg.complete(6),
+                vertex_config={i + 1: {"fill_color": COLOR_SEQ[i]} for i in range(6)},
+                edge_config={e: {"stroke_color": RED} for e in gg.complete(6)[1]},
+                layout="circular",
+                layout_scale=lt_scale,
+            ),
+            Graph(
+                list(range(1, 7)),
+                [],
+                vertex_config={i + 1: {"fill_color": COLOR_SEQ[0]} for i in range(6)},
+                layout="circular",
+                layout_scale=lt_scale,
+            ),
+            Graph(
+                *gg.complete_multipartite([3, 3]),
+                vertex_config={
+                    i + 1: {"fill_color": COLOR_SEQ[i < 3]} for i in range(6)
+                },
+                edge_config={(2, 4): {"stroke_color": RED}},
+                layout="partite",
+                partitions=[[1, 2, 3], [4, 5, 6]],
+                layout_scale=lt_scale,
+            ),
+            Graph(
+                *gg.complete_multipartite([2, 2, 1, 1]),
+                vertex_config={
+                    i + 1: {"fill_color": COLOR_SEQ[[0, 0, 1, 1, 2, 3][i]]}
+                    for i in range(6)
+                },
+                edge_config={
+                    ([1, 3, 5, 6][i], [1, 3, 5, 6][j]): {"stroke_color": RED}
+                    for i in range(4)
+                    for j in range(i + 1, 4)
+                },
+                layout={
+                    1: [-1.25, 0.75, 0],
+                    2: [-0.75, 1.25, 0],
+                    3: [0.75, 1.25, 0],
+                    4: [1.25, 0.75, 0],
+                    5: [1, -1, 0],
+                    6: [-1, -1, 0],
+                },
+                layout_scale=lt_scale,
+            ),
+        )
+        center_graph = Graph(
+            list(range(1, 7)),
+            [(1, 2), (1, 3), (2, 3), (4, 5)],
+            vertex_config={
+                i + 1: {"fill_color": COLOR_SEQ[[0, 1, 2, 0, 1, 0][i]]}
+                for i in range(6)
+            },
+            edge_config={e: {"stroke_color": RED} for e in [(1, 2), (1, 3), (2, 3)]},
+            layout="circular",
+            layout_scale=lt_scale,
+        )
+        graphs.arrange_in_grid(buff=(5, LARGE_BUFF))
+        self.wait()
+        self.play(Create(graphs[0]), run_time=2)
+        self.wait(3)
+        self.play(Create(graphs[1]), run_time=2)
+        self.wait()
+        self.play(Create(graphs[2]), run_time=2)
+        self.wait(3)
+        self.play(Create(graphs[3]), run_time=2)
+        self.wait(5)
+        self.play(Create(center_graph))
+        self.wait(3)
+
+
 class PropertyPerseverence(Scene):
     def construct(self):
         v, e = gg.complete(8)
