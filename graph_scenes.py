@@ -2,7 +2,6 @@ import graph_generation as gg
 import imperfect_examples as imp
 from manim_setup import *
 
-
 class Clique(Scene):
     def construct(self):
         v, e = gg.complete(4)
