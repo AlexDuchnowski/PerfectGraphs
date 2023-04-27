@@ -79,9 +79,7 @@ class Clique(Scene):
 
 class IsThisBoundSharp(Scene):
     def construct(self):
-        # Tex to color map
         t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, "\geq": GOLD, "=": YELLOW}
-        # Configuration to pass along to each Tex mobject
         kw = dict(font_size=80, tex_to_color_map=t2c)
         lines = VGroup(
             MathTex("\chi(G)\geq\omega(G)", **kw),
@@ -296,10 +294,40 @@ class NotGuaranteed(Scene):
             # positions={6: [0, 0.5, 0]},
         )
         G.add_edges((1, 6), (2, 6), (4, 6))
-        G.shift(0.425 * LEFT)
+        # G.shift(0.425 * LEFT)
+        t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, r"\neq": PURE_RED}
+        kw = dict(font_size=80, tex_to_color_map=t2c)
+        stats_before = MathTex("\chi(G)=3=3=\omega(G)", **kw)
+        stats_after = MathTex(r"\chi(G)=3\neq 2=\omega(G)", **kw)
+        group = VGroup(G, stats_before).arrange(DOWN, buff=LARGE_BUFF)
+        stats_after.move_to(stats_before)
         self.play(Create(G))
-        self.wait(5)
+        self.wait()
+        self.play(Write(stats_before))
+        self.wait(2)
+        self.play(
+            G.edges[(1, 2)].animate.set_color(RED),
+            G.edges[(1, 6)].animate.set_color(RED),
+            G.edges[(2, 6)].animate.set_color(RED),
+        )
+        self.wait()
+        self.play(
+            G.edges[(1, 2)].animate.set_color(WHITE),
+            G.edges[(1, 6)].animate.set_color(WHITE),
+            G.edges[(2, 6)].animate.set_color(WHITE),
+        )
+        self.wait(3)
+        self.play(G[6].animate.set_color(PURE_RED), run_time=1.5)
+        self.wait()
         self.play(G.animate.remove_vertices(6))
+        self.wait(0.5)
+        self.play(
+            TransformMatchingTex(
+                stats_before,
+                stats_after,
+                matched_keys=["\chi", "\omega", "=", "3"],
+            ),
+        )
         self.wait(5)
 
 

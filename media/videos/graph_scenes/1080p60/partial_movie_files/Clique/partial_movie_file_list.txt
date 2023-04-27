@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3118456547_4201967970_223132457.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_36632488_1891577133.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_3388033947_268709281.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_329969645_4149311625.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_329969645_2727290405.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_2897573925_3236193873.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_1665548376_4281085940.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_3877901966_704444111.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/1080p60/partial_movie_files/Clique/3168173129_36632488_3079589858.mp4'
