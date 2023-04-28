@@ -7,6 +7,10 @@ def shift(
     return [u + n for u in v], [(x + n, y + n) for (x, y) in e]
 
 
+def reassign_edges(e: List[Tuple[int]], new: List[int]) -> List[Tuple[int]]:
+    return [(new[x - 1], new[y - 1]) for (x, y) in e]
+
+
 def complete(n: int) -> Tuple[List[int], List[Tuple[int]]]:
     vertices = list(range(1, n + 1))
     edges = [(u, v) for u in vertices for v in vertices[u:]]

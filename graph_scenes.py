@@ -1,5 +1,6 @@
 import graph_generation as gg
 import imperfect_examples as imp
+import perfect_examples as perf
 from manim_setup import *
 
 
@@ -79,8 +80,8 @@ class Clique(Scene):
 
 class IsThisBoundSharp(Scene):
     def construct(self):
-        t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, "\geq": GOLD, "=": YELLOW}
-        kw = dict(font_size=80, tex_to_color_map=t2c)
+        # t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, "\geq": GOLD, "=": YELLOW}
+        # kw = dict(font_size=80, tex_to_color_map=t2c)
         lines = VGroup(
             MathTex("\chi(G)\geq\omega(G)", **kw),
             MathTex("\chi(G)=\omega(G)", **kw),
@@ -291,12 +292,11 @@ class NotGuaranteed(Scene):
         G.add_vertices(
             6,
             vertex_config={6: {"radius": 0.2, "fill_color": COLOR_SEQ[2]}},
-            # positions={6: [0, 0.5, 0]},
         )
         G.add_edges((1, 6), (2, 6), (4, 6))
         # G.shift(0.425 * LEFT)
-        t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, r"\neq": PURE_RED}
-        kw = dict(font_size=80, tex_to_color_map=t2c)
+        # t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, r"\neq": PURE_RED}
+        # kw = dict(font_size=80, tex_to_color_map=t2c)
         stats_before = MathTex("\chi(G)=3=3=\omega(G)", **kw)
         stats_after = MathTex(r"\chi(G)=3\neq 2=\omega(G)", **kw)
         group = VGroup(G, stats_before).arrange(DOWN, buff=LARGE_BUFF)
@@ -329,6 +329,110 @@ class NotGuaranteed(Scene):
             ),
         )
         self.wait(5)
+
+
+class Complements(Scene):
+    def construct(self):
+        group_1 = VGroup(
+            Graph(*gg.complete(10), layout="circular"),
+            Graph(list(range(1, 11)), [], layout="circular"),
+        )
+        K3_1 = gg.complete(3)
+        K3_2 = gg.shift(*K3_1, 3)
+        K3_3 = gg.shift(*K3_2, 3)
+        c_1 = {i + 1: COLOR_SEQ[(i // 3) - 1] for i in range(9)}
+        c_2 = {i + 1: COLOR_SEQ[i % 3] for i in range(9)}
+        group_2 = VGroup(
+            Graph(
+                *gg.complete_multipartite([3, 3, 3]),
+                layout="circular",
+            ),
+            Graph(
+                K3_1[0] + K3_2[0] + K3_3[0],
+                K3_1[1] + K3_2[1] + K3_3[1],
+                layout="circular",
+            ),
+        )
+        group_3 = VGroup(
+            Graph(*gg.cycle(5), layout="circular"),
+            Graph(
+                [1, 4, 2, 5, 3],
+                gg.cycle(5)[1],
+                layout="circular",
+            ),
+        )
+        groups = [group_1, group_2, group_3]
+        for i in range(len(groups)):
+            self.play(Create(groups[i][0]), Create(groups[i][1]))
+            self.wait()
+            self.play(groups[i].animate.arrange(RIGHT, buff=LARGE_BUFF))
+            if i == 0:
+                for j in range(1, 11):
+                    self.play(
+                        group_1[0][j].animate.set_color(COLOR_SEQ[j - 1]),
+                        group_1[1][j].animate.set_color(COLOR_SEQ[0]),
+                        run_time=0.1,
+                    )
+            if i == 1:
+                for j in range(1, 10):
+                    self.play(
+                        group_2[0][j].animate.set_color(c_1[j]),
+                        group_2[1][j].animate.set_color(c_2[j]),
+                        run_time=0.1,
+                    )
+                for j in range(1, 10, 3):
+                    self.play(
+                        group_2[0][j].animate.move_to(
+                            (
+                                group_2[0][j].get_center()
+                                + group_2[0][j + 1].get_center()
+                            )
+                            / 2
+                        ),
+                        group_2[1][j].animate.move_to(
+                            (
+                                group_2[1][j].get_center()
+                                + group_2[1][j + 1].get_center()
+                            )
+                            / 2
+                        ),
+                        group_2[0][j + 2].animate.move_to(
+                            (
+                                group_2[0][j + 2].get_center()
+                                + group_2[0][j + 1].get_center()
+                            )
+                            / 2
+                        ),
+                        group_2[1][j + 2].animate.move_to(
+                            (
+                                group_2[1][j + 2].get_center()
+                                + group_2[1][j + 1].get_center()
+                            )
+                            / 2
+                        ),
+                        run_time=0.5,
+                    )
+            if i == 2:
+                for j in range(1, 6):
+                    self.play(
+                        group_3[0][j].animate.set_color(
+                            COLOR_SEQ[[0, 1, 0, 1, 2][j - 1]]
+                        ),
+                        group_3[1][j].animate.set_color(
+                            COLOR_SEQ[[0, 1, 0, 1, 2][j - 1]]
+                        ),
+                        run_time=0.1,
+                    )
+                self.wait()
+                self.play(
+                    group_3[1][2].animate.move_to(groups[i][1][4]),
+                    group_3[1][3].animate.move_to(groups[i][1][2]),
+                    group_3[1][4].animate.move_to(groups[i][1][5]),
+                    group_3[1][5].animate.move_to(groups[i][1][3]),
+                )
+            self.wait(3)
+            self.play(Uncreate(groups[i][0]), Uncreate(groups[i][1]))
+            self.wait()
 
 
 class ImperfectGraphs(Scene):
@@ -400,6 +504,12 @@ class ImperfectGraphs(Scene):
             graphs[2].animate.remove_vertices(6, 7),
         )
         self.wait(3)
+        self.play(FadeOut(graphs))
+        hole_defn = Text("A hole is an induced cycle of length at least 4.", font=FONT)
+        self.play(Write(hole_defn))
+        self.wait(3)
+        self.play(Unwrite(hole_defn))
+        self.play(FadeIn(graphs))
         self.play(
             graphs[3].animate.add_edges(
                 *gg.cycle(7)[1],
@@ -438,9 +548,33 @@ class ImperfectGraphs(Scene):
         self.wait()
         self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
         graphs[-1] = C7
+        self.play(FadeOut(graphs[-1]))
+        antihole_defn = VGroup(
+            Tex("If a collection of vertices forms a hole"),
+            Tex("in the complement of a graph $G$, then"),
+            Tex("we say they form an `antihole' in $G$."),
+        ).arrange(DOWN, aligned_edge=LEFT)
+        self.play(Write(antihole_defn))
+        self.wait(3)
+        self.play(Unwrite(antihole_defn))
+        self.play(FadeIn(graphs[-1]))
         self.play(
             C7.animate.change_layout("circular", layout_scale=scale),
             FadeIn(graphs[:-1]),
         )
         self.play(graphs.animate.arrange_in_grid(buff=LARGE_BUFF))
+        self.wait()
+
+
+class PerfectGraphs(Scene):
+    def construct(self):
+        graphs = VGroup(
+            Graph(*perf.lollipop_5()),
+            # Graph(*perf.barbell_5_5()),
+            # Graph(*perf.rook_8()),
+            # Graph(*perf.fan_4_2()),
+            Graph(*perf.hanoi_2()),
+            Graph(*perf.sun_4()),
+        ).arrange_in_grid(buff=LARGE_BUFF)
+        self.play(Create(graphs[0]), Create(graphs[1]), Create(graphs[2]))
         self.wait()

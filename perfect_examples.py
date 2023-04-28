@@ -6,7 +6,7 @@ import graph_generation
 def lollipop_5() -> Tuple[List[int], List[Tuple[int]]]:
     vertices, edges = graph_generation.complete(5)
     vertices += [6, 7, 8, 9]
-    edges += [(6, 0), (7, 6), (8, 7), (9, 8)]
+    edges += [(6, 1), (7, 6), (8, 7), (9, 8)]
     return vertices, edges
 
 
@@ -50,3 +50,4 @@ def sun_4() -> Tuple[List[int], List[Tuple[int]]]:
     vertices, edges = graph_generation.complete(4)
     vertices += [5, 6, 7, 8]
     edges += [(1, 5), (2, 5), (2, 6), (3, 6), (3, 7), (4, 7), (4, 8), (1, 8)]
+    return vertices, edges
