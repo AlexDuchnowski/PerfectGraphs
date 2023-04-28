@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/2160p60/partial_movie_files/WeakPerfectGraphTheorem/4237799062_2571843551_223132457.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/2160p60/partial_movie_files/WeakPerfectGraphTheorem/2014966242_329969645_1693146222.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/2160p60/partial_movie_files/WeakPerfectGraphTheorem/2014966242_3604348852_3110874077.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/2160p60/partial_movie_files/WeakPerfectGraphTheorem/2014966242_329969645_90056318.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/2160p60/partial_movie_files/WeakPerfectGraphTheorem/2014966242_2725208482_4121291445.mp4'

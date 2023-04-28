@@ -1,0 +1,5 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/2160p60/partial_movie_files/PerfectGraphs/4237799062_3467584458_223132457.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/2160p60/partial_movie_files/PerfectGraphs/2014966242_7150589_1995309641.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/2160p60/partial_movie_files/PerfectGraphs/2014966242_3125601444_1538607435.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/graph_scenes/2160p60/partial_movie_files/PerfectGraphs/2014966242_3023951634_1672858293.mp4'

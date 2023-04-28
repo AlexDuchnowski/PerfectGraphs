@@ -80,8 +80,6 @@ class Clique(Scene):
 
 class IsThisBoundSharp(Scene):
     def construct(self):
-        # t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, "\geq": GOLD, "=": YELLOW}
-        # kw = dict(font_size=80, tex_to_color_map=t2c)
         lines = VGroup(
             MathTex("\chi(G)\geq\omega(G)", **kw),
             MathTex("\chi(G)=\omega(G)", **kw),
@@ -298,6 +296,7 @@ class PropertyPerseverence(Scene):
         self.play(M.animate.change_layout("circular", layout_scale=3))
         self.wait(2)
         self.play(Uncreate(M))
+        self.wait()
 
 
 class NotGuaranteed(Scene):
@@ -317,9 +316,6 @@ class NotGuaranteed(Scene):
             vertex_config={6: {"radius": 0.2, "fill_color": COLOR_SEQ[2]}},
         )
         G.add_edges((1, 6), (2, 6), (4, 6))
-        # G.shift(0.425 * LEFT)
-        # t2c = {"\chi": BLUE, "\omega": RED, "G": GREEN, r"\neq": PURE_RED}
-        # kw = dict(font_size=80, tex_to_color_map=t2c)
         stats_before = MathTex("\chi(G)=3=3=\omega(G)", **kw)
         stats_after = MathTex(r"\chi(G)=3\neq 2=\omega(G)", **kw)
         group = VGroup(G, stats_before).arrange(DOWN, buff=LARGE_BUFF)
@@ -550,7 +546,12 @@ class ImperfectGraphs(Scene):
             graphs[4].animate.remove_vertices(10, 11, 12),
         )
         self.wait(1)
-        self.play(LaggedStartMap(FadeOut, graphs[:-1], shift=2 * LEFT))
+        holes_bad = Tex("Odd Hole $\Rightarrow$ Not Perfect")
+        self.play(Write(holes_bad))
+        self.wait(3)
+        self.play(
+            LaggedStartMap(FadeOut, VGroup(graphs[:-1], holes_bad), shift=2 * LEFT)
+        )
         self.play(graphs[-1].animate.change_layout("circular", layout_scale=2))
         self.wait()
         v, e = gg.cycle(7)
@@ -586,10 +587,20 @@ class ImperfectGraphs(Scene):
         graphs[-1] = C7
         self.play(
             C7.animate.change_layout("circular", layout_scale=scale),
-            FadeIn(graphs[:-1]),
+            FadeIn(graphs[:-1], holes_bad),
         )
         self.play(graphs.animate.arrange_in_grid(buff=LARGE_BUFF))
-        self.wait(3)
+        self.wait()
+        holes_bad_extended = Tex("Odd Hole OR Odd Antihole $\Rightarrow$ Not Perfect")
+        self.play(
+            TransformMatchingTex(
+                holes_bad,
+                holes_bad_extended,
+                transform_mismatches=True,
+                matched_keys=["Odd", "Hole", "$\Rightarrow$", "Not Perfect"],
+            )
+        )
+        self.wait(10)
 
 
 class PerfectGraphs(Scene):

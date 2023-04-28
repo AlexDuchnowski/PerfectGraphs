@@ -18,19 +18,14 @@ class Title(Scene):
 class PerfectDefinition(Scene):
     def construct(self):
         text = VGroup(
-            Text(
-                "A graph G is perfect if and only if",
-                font=FONT,
-                t2s={"G": ITALIC, "perfect": ITALIC},
-                t2w={"perfect": BOLD},
-            ),
-            Text("the chromatic number equals"),
-            Text("the size of the maximum clique"),
-            Text("both in the graph itself and"),
-            Text("in every induced subgraph."),
+            Tex(r"A graph $G$ is \underline{perfect} if and only if"),
+            Tex("the chromatic number equals"),
+            Tex("the size of the maximum clique"),
+            Tex("both in the graph itself and"),
+            Tex("in every induced subgraph."),
         )
         text.arrange(DOWN, aligned_edge=LEFT)
-        self.play(Write(text), run_time=10)
+        self.play(Write(text), run_time=5)
         self.wait()
         self.play(LaggedStartMap(FadeOut, text))
 
