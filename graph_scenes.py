@@ -187,13 +187,19 @@ class IsThisBoundSharp(Scene):
 
 class PropertyPerseverence(Scene):
     def construct(self):
-        v, e = gg.complete(8)
-        K = Graph(v, e, layout="circular")
-        N = Graph(v, [], layout="circular")
-        v, e = gg.complete_multipartite([4, 5])
+        K = Graph(
+            *gg.complete(8),
+            layout="circular",
+            vertex_config={i + 1: {"fill_color": COLOR_SEQ[i]} for i in range(8)},
+        )
+        N = Graph(
+            list(range(1, 9)),
+            [],
+            layout="circular",
+            vertex_config={i + 1: {"fill_color": COLOR_SEQ[0]} for i in range(8)},
+        )
         B = Graph(
-            v,
-            e,
+            *gg.complete_multipartite([4, 5]),
             vertex_config={
                 i: {"fill_color": PURE_BLUE} if i < 5 else {"fill_color": PURE_GREEN}
                 for i in range(1, 10)
@@ -202,27 +208,34 @@ class PropertyPerseverence(Scene):
             partitions=[list(range(1, 5)), list(range(5, 10))],
             layout_scale=3,
         )
+        parts = [[1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11, 12]]
+        M = Graph(
+            *gg.complete_multipartite([2, 3, 3, 4]),
+            layout="circular",
+            layout_scale=3,
+            vertex_config={
+                v: {"fill_color": COLOR_SEQ[i]} for i in range(4) for v in parts[i]
+            },
+        )
         self.play(Create(K))
         self.play(
             K[1].animate.set_color(PURE_RED),
-            # K[1].animate.scale(3),
             K[4].animate.set_color(PURE_RED),
-            # K[4].animate.scale(3),
         )
         self.wait(0.5)
         self.play(K.animate.remove_vertices(1, 4))
         self.wait(0.5)
         self.play(K.animate.change_layout("circular"))
         self.wait()
-        self.play(FadeOut(K))
-        self.play(Create(N))
+        self.play(Uncreate(K))
+        self.play(Create(N), run_time=0.5)
         self.play(
             N[1].animate.set_color(PURE_RED),
             N[3].animate.set_color(PURE_RED),
         )
         self.play(N.animate.remove_vertices(1, 3), run_time=0.5)
         self.play(N.animate.change_layout("circular"))
-        self.play(FadeOut(N))
+        self.play(Uncreate(N))
         self.play(Create(B))
         self.play(
             B[2].animate.set_color(PURE_RED),
@@ -253,7 +266,11 @@ class PropertyPerseverence(Scene):
         )
         self.play(
             B.animate.add_edges(
-                *[edge for edge in e if edge[0] == 2 or edge[1] in [5, 8]]
+                *[
+                    edge
+                    for edge in gg.complete_multipartite([4, 5])[1]
+                    if edge[0] == 2 or edge[1] in [5, 8]
+                ]
             )
         )
         self.wait()
@@ -266,15 +283,21 @@ class PropertyPerseverence(Scene):
         self.play(B.animate.remove_vertices(1, 2, 3, 4))
         self.wait(0.5)
         self.play(B.animate.change_layout("circular"))
-        self.play(
-            B[5].animate.set_color(WHITE),
-            B[6].animate.set_color(WHITE),
-            B[7].animate.set_color(WHITE),
-            B[8].animate.set_color(WHITE),
-            B[9].animate.set_color(WHITE),
-            run_time=0.5,
-        )
         self.wait()
+        self.play(Uncreate(B))
+        self.play(Create(M), run_time=2)
+        self.wait()
+        self.play(
+            M[1].animate.set_color(PURE_RED),
+            M[5].animate.set_color(PURE_RED),
+            M[10].animate.set_color(PURE_RED),
+            M[12].animate.set_color(PURE_RED),
+        )
+        self.play(M.animate.remove_vertices(1, 5, 10, 12))
+        self.wait()
+        self.play(M.animate.change_layout("circular", layout_scale=3))
+        self.wait(2)
+        self.play(Uncreate(M))
 
 
 class NotGuaranteed(Scene):
@@ -559,6 +582,7 @@ class ImperfectGraphs(Scene):
         self.play(FadeIn(graphs[-1], C7))
         self.wait()
         self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
+        self.wait()
         graphs[-1] = C7
         self.play(
             C7.animate.change_layout("circular", layout_scale=scale),
@@ -570,13 +594,53 @@ class ImperfectGraphs(Scene):
 
 class PerfectGraphs(Scene):
     def construct(self):
+        lt_scale = 1.5
+        v_c = {"radius": 0.05}
         graphs = VGroup(
-            Graph(*perf.lollipop_5()),
-            # Graph(*perf.barbell_5_5()),
-            # Graph(*perf.rook_8()),
-            # Graph(*perf.fan_4_2()),
-            Graph(*perf.hanoi_2()),
-            Graph(*perf.sun_4()),
+            Graph(
+                *perf.lollipop_5(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *perf.barbell_5_5(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *perf.rook_8(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="kamada_kawai",
+            ),
+            Graph(
+                *perf.fan_4_2(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="circular",
+            ).rotate(-2 * PI / 3),
+            Graph(
+                *perf.hanoi_2(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="partite",
+                partitions=[[1], [2, 9], [3, 8], [4, 5, 6, 7]],
+            ),
+            Graph(
+                *perf.sun_4(),
+                layout_scale=lt_scale,
+                vertex_config=v_c,
+                layout="kamada_kawai",
+            ),
         ).arrange_in_grid(buff=LARGE_BUFF)
-        self.play(Create(graphs[0]), Create(graphs[1]), Create(graphs[2]))
-        self.wait()
+        self.play(
+            Create(graphs[0]),
+            Create(graphs[1]),
+            Create(graphs[2]),
+            Create(graphs[3]),
+            Create(graphs[4]),
+            Create(graphs[5]),
+        )
+        self.wait(10)

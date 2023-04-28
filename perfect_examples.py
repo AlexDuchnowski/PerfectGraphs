@@ -11,23 +11,19 @@ def lollipop_5() -> Tuple[List[int], List[Tuple[int]]]:
 
 
 def barbell_5_5() -> Tuple[List[int], List[Tuple[int]]]:
-    vertices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    edges = []
-    for i in range(5):
-        for j in range(i, 5):
-            edges += [(i, j), (i + 5, j + 5)]
-    edges += [(0, 5)]
-    return vertices, edges
+    v1, e1 = graph_generation.complete(5)
+    v2, e2 = graph_generation.shift(*graph_generation.complete(5), 5)
+    return v1 + v2, e1 + e2 + [(1, 6)]
 
 
 def rook_8() -> Tuple[List[int], List[Tuple[int]]]:
-    vertices = list(range(64))
+    vertices = list(range(9))
     edges = []
-    for i in range(64):
-        for j in range(i, 64):
-            if i % 8 == j % 8 or i // 8 == j // 8:
+    for i in range(9):
+        for j in range(i + 1, 9):
+            if i % 3 == j % 3 or i // 3 == j // 3:
                 edges += [(i, j)]
-    return vertices, edges
+    return graph_generation.shift(vertices, edges, 1)
 
 
 def fan_4_2() -> Tuple[List[int], List[Tuple[int]]]:
@@ -37,7 +33,7 @@ def fan_4_2() -> Tuple[List[int], List[Tuple[int]]]:
         edges += [(0, i)]
     for i in range(2, 6):
         edges += [(1, i)]
-    return vertices, edges
+    return graph_generation.shift(vertices, edges, 1)
 
 
 def hanoi_2() -> Tuple[List[int], List[Tuple[int]]]:
