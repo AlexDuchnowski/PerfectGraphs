@@ -594,37 +594,42 @@ class ImperfectGraphs(Scene):
 
 class PerfectGraphs(Scene):
     def construct(self):
-        lt_scale = 1.5
+        lt_scale = 1.25
         v_c = {"radius": 0.05}
         graphs = VGroup(
             Graph(
                 *perf.lollipop_5(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[0]},
                 layout="kamada_kawai",
             ),
             Graph(
                 *perf.barbell_5_5(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[1]},
                 layout="kamada_kawai",
             ),
             Graph(
                 *perf.rook_8(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
-                layout="kamada_kawai",
+                edge_config={"stroke_color": COLOR_SEQ[2]},
+                layout="shell",
             ),
             Graph(
                 *perf.fan_4_2(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[3]},
                 layout="circular",
             ).rotate(-2 * PI / 3),
             Graph(
                 *perf.hanoi_2(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[4]},
                 layout="partite",
                 partitions=[[1], [2, 9], [3, 8], [4, 5, 6, 7]],
             ),
@@ -632,15 +637,23 @@ class PerfectGraphs(Scene):
                 *perf.sun_4(),
                 layout_scale=lt_scale,
                 vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[5]},
                 layout="kamada_kawai",
             ),
-        ).arrange_in_grid(buff=LARGE_BUFF)
-        self.play(
-            Create(graphs[0]),
-            Create(graphs[1]),
-            Create(graphs[2]),
-            Create(graphs[3]),
-            Create(graphs[4]),
-            Create(graphs[5]),
-        )
+            Graph(
+                *perf.king_3_3(),
+                vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[6]},
+                layout_scale=lt_scale,
+            ),
+            Graph(
+                *perf.windmill_4_5(),
+                vertex_config=v_c,
+                edge_config={"stroke_color": COLOR_SEQ[7]},
+                layout_scale=lt_scale,
+            ),
+        ).arrange_in_grid(rows=2, cols=4, buff=(MED_LARGE_BUFF, LARGE_BUFF))
+        self.play(Create(graphs[3]), Create(graphs[5]), run_time=2)
+        self.play(Create(graphs[0]), Create(graphs[2]), Create(graphs[7]), run_time=2)
+        self.play(Create(graphs[1]), Create(graphs[4]), Create(graphs[6]), run_time=2)
         self.wait(10)

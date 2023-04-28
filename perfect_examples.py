@@ -47,3 +47,21 @@ def sun_4() -> Tuple[List[int], List[Tuple[int]]]:
     vertices += [5, 6, 7, 8]
     edges += [(1, 5), (2, 5), (2, 6), (3, 6), (3, 7), (4, 7), (4, 8), (1, 8)]
     return vertices, edges
+
+
+def king_3_3() -> Tuple[List[int], List[Tuple[int]]]:
+    vertices, edges = list(range(9)), []
+    for i in range(9):
+        for j in range(i + 1, 9):
+            if ((i % 3) - (j % 3)) ** 2 <= 1 and ((i // 3) - (j // 3)) ** 2 <= 1:
+                edges += [(i, j)]
+    return graph_generation.shift(vertices, edges, 1)
+
+
+def windmill_4_5() -> Tuple[List[int], List[Tuple[int]]]:
+    blades = [
+        graph_generation.shift(*graph_generation.complete(3), 3 * i) for i in range(5)
+    ]
+    vertices = [v for blade in blades for v in blade[0]] + [16]
+    edges = [e for blade in blades for e in blade[1]] + [(v, 16) for v in vertices[:-1]]
+    return vertices, edges
