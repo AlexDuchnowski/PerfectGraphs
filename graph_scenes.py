@@ -483,6 +483,7 @@ class ImperfectGraphs(Scene):
             run_time=1.5,
         )
         self.wait(6)
+        moser_cycle = [(1, 6), (6, 4), (4, 7), (7, 2), (2, 1)]
         self.play(
             graphs[0].animate.add_edges(
                 *gg.cycle(5)[1],
@@ -493,19 +494,19 @@ class ImperfectGraphs(Scene):
                 edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
             ),
             graphs[2].animate.add_edges(
-                *gg.cycle(5)[1],
-                edge_config={e: {"stroke_color": PURE_RED} for e in gg.cycle(5)[1]},
+                *moser_cycle,
+                edge_config={e: {"stroke_color": PURE_RED} for e in moser_cycle},
             ),
         )
         self.wait(2)
         self.play(
             graphs[0].animate.remove_vertices(6),
             graphs[1].animate.remove_vertices(6, 7),
-            graphs[2].animate.remove_vertices(6, 7),
+            graphs[2].animate.remove_vertices(3, 5),
         )
         self.wait(3)
         self.play(FadeOut(graphs))
-        hole_defn = Text("A hole is an induced cycle of length at least 4.", font=FONT)
+        hole_defn = Tex(r"A \underline{hole} is an induced cycle of length at least 4.")
         self.play(Write(hole_defn))
         self.wait(3)
         self.play(Unwrite(hole_defn))
@@ -546,24 +547,25 @@ class ImperfectGraphs(Scene):
         self.wait()
         self.play(VGroup(graphs[-1], C7).animate.arrange(buff=LARGE_BUFF))
         self.wait()
-        self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
-        graphs[-1] = C7
-        self.play(FadeOut(graphs[-1]))
+        self.play(FadeOut(graphs[-1], C7))
         antihole_defn = VGroup(
-            Tex("If a collection of vertices forms a hole"),
-            Tex("in the complement of a graph $G$, then"),
-            Tex("we say they form an `antihole' in $G$."),
+            Tex(r"If a collection of vertices forms a hole"),
+            Tex(r"in the complement of a graph $G$, then"),
+            Tex(r"we say they form an \underline{antihole} in $G$."),
         ).arrange(DOWN, aligned_edge=LEFT)
-        self.play(Write(antihole_defn))
+        self.play(Write(antihole_defn), run_time=3)
         self.wait(3)
         self.play(Unwrite(antihole_defn))
-        self.play(FadeIn(graphs[-1]))
+        self.play(FadeIn(graphs[-1], C7))
+        self.wait()
+        self.play(FadeOut(graphs[-1]), C7.animate.change_layout("circular"))
+        graphs[-1] = C7
         self.play(
             C7.animate.change_layout("circular", layout_scale=scale),
             FadeIn(graphs[:-1]),
         )
         self.play(graphs.animate.arrange_in_grid(buff=LARGE_BUFF))
-        self.wait()
+        self.wait(3)
 
 
 class PerfectGraphs(Scene):
