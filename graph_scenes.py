@@ -668,3 +668,27 @@ class PerfectGraphs(Scene):
         self.play(Create(graphs[0]), Create(graphs[2]), Create(graphs[7]), run_time=2)
         self.play(Create(graphs[1]), Create(graphs[4]), Create(graphs[6]), run_time=2)
         self.wait(10)
+
+
+class Threshold(Scene):
+    def construct(self):
+        G = Graph([], [])
+        self.add(G)
+        self.play(G.animate.add_vertices(1, labels=True, positions={1: [-2, -2, 0]}))
+        self.wait(3)
+        self.play(G.animate.add_vertices(2, labels=True, positions={2: [0, -2, 0]}))
+        self.wait(3)
+        self.play(G.animate.add_vertices(3, labels=True, positions={3: [0, 0, 0]}))
+        self.play(G.animate.add_edges(*[(3, v) for v in range(1, 3)]))
+        self.wait(5)
+        G.add_vertices(4, labels=True, positions={4: [-2, 0, 0]})
+        self.play(G.animate.add_edges(*[(4, v) for v in range(1, 4)]))
+        self.play(G.animate.add_vertices(5, labels=True, positions={5: [2, -2, 0]}))
+        self.play(G.animate.add_vertices(6, labels=True, positions={6: [-4, 0, 0]}))
+        self.play(G.animate.add_vertices(7, labels=True, positions={7: [6, 0, 0]}))
+        G.add_vertices(8, labels=True, positions={8: [0, 2, 0]})
+        self.play(G.animate.add_edges(*[(8, v) for v in range(1, 8)]))
+        self.play(G.animate.add_vertices(9, labels=True, positions={9: [4, -2, 0]}))
+        G.add_vertices(10, labels=True, positions={10: [4, 2, 0]})
+        self.play(G.animate.add_edges(*[(10, v) for v in range(1, 10)]))
+        self.wait(10)

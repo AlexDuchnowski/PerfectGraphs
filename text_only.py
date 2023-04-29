@@ -59,3 +59,10 @@ class StrongPerfectGraphTheorem(Scene):
         self.play(Write(lines[1:]))
         self.wait()
         self.play(LaggedStartMap(FadeOut, lines))
+
+
+class Thanks(Scene):
+    def construct(self):
+        thanks = Text("Thanks For Watching!", font_size=80, font=FONT)
+        self.play(Write(thanks))
+        self.play(LaggedStartMap(FadeOut, thanks, run_time=0.25))

@@ -1,0 +1,3 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/480p15/partial_movie_files/Thanks/2760156355_3082878069_223132457.mp4'
+file 'file:C:/Users/alexd/OneDrive/Documents/PerfectGraphs/media/videos/text_only/480p15/partial_movie_files/Thanks/3603895215_2452429100_2358810818.mp4'
