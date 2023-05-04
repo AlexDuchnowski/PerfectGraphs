@@ -4,4 +4,4 @@ This is a repository with code for animations used for a [video project](https:/
 
 Animations were created using `manim` from [ManimCommunity](https://github.com/manimCommunity/manim).
 
-https://youtu.be/fnE81FLHfcc
+https://img.youtube.com/vi/fnE81FLHfcc/hqdefault.jpg
